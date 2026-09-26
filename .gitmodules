@@ -1,0 +1,3 @@
+[submodule "config/script/NetQuality"]
+	path = config/script/NetQuality
+	url = https://github.com/xykt/NetQuality.git

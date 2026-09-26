@@ -1,0 +1,39 @@
+listen: :443
+
+realm:
+  stunServers: 
+    - stun.nextcloud.com:3478
+    - global.stun.twilio.com:3478
+  stunTimeout: 5s 
+  punchTimeout: 5s 
+  heartbeatInterval: 30s 
+  insecure: false 
+  ipMode: dual 
+  portMapping:
+    enabled: false 
+    timeout: 10s 
+    lifetime: 10m
+
+acme:
+  domains:
+    - domain1.com
+    - domain2.org
+  email: your@email.net
+  ca: zerossl 
+  listenHost: 0.0.0.0 
+  dir: my_acme_dir 
+  type: http | tls | dns 
+  http:
+    altPort: 8888 
+  tls:
+    altPort: 44333 
+  dns:
+    name: gomommy 
+    config:
+      key1: value1
+      key2: value2
+
+ech:
+  keyPath: ech.pem
+
+
