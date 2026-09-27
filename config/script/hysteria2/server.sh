@@ -66,6 +66,8 @@ cat > /etc/caddy/Caddyfile << EOF
 }
 
 https://random.drrr-sy.top:8443 {
+    tls /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.crt /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.key
+
     handle_path /sub/* {
         root * /var/www/sub
         file_server
