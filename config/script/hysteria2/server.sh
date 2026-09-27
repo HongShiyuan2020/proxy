@@ -3,7 +3,7 @@ OBS_PASS=$(uuidgen)
 
 if ! command -v uuidgen >/dev/null 2>&1; then 
     echo "Install uuidgen..."
-    apt install uuid-runtime
+    apt install uuid-runtime -y
 fi 
 
 if ! command -v hysteria >/dev/null 2>&1; then 
