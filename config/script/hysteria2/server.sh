@@ -59,6 +59,12 @@ mkdir -pv /var/www/sub
 mv ./client_new.yaml "/var/www/sub/${CLIENT_KEY}.yaml"
 echo "${CLIENT_KEY}"
 systemctl restart hysteria-server.service && echo "Restart Success!"
+mkdir -pv /etc/caddy/certs 
+cp /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.crt /etc/caddy/certs 
+cp /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.key /etc/caddy/certs 
+
+chown root:caddy /etc/caddy/certs/*
+sudo chmod 640 /etc/caddy/certs/*
 
 cat > /etc/caddy/Caddyfile << EOF 
 {
@@ -66,8 +72,7 @@ cat > /etc/caddy/Caddyfile << EOF
 }
 
 https://random.drrr-sy.top:8443 {
-    tls /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.crt /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.key
-
+    tls /etc/caddy/certs/random.drrr-sy.top.crt /etc/caddy/certs/random.drrr-sy.top.key
     handle_path /sub/* {
         root * /var/www/sub
         file_server
