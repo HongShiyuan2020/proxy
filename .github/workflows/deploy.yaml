@@ -15,7 +15,7 @@ jobs:
 
       - name: Pre 
         run: |
-          sed -i "s|{{CLIENT_KEY}}|${{ secrets.CLIENT_KEY }}|g" config/script/server.sh 
+          sed -i "s|{{CLIENT_KEY}}|${{ secrets.CLIENT_KEY }}|g" config/script/hysteria2/server.sh 
 
       - name: SCP to Server  
         uses: appleboy/scp-action@master
