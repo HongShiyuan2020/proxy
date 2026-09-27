@@ -61,7 +61,11 @@ echo "${CLIENT_KEY}"
 systemctl restart hysteria-server.service && echo "Restart Success!"
 
 cat > /etc/caddy/Caddyfile << EOF 
-random.drrr-sy.top {
+{
+    auto_https disable_redirects
+}
+
+https://random.drrr-sy.top:8443 {
     handle_path /sub/* {
         root * /var/www/sub
         file_server
