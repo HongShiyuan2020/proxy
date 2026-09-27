@@ -18,6 +18,7 @@ fi
 
 PASSWORD=$(uuidgen)
 OBS_PASS=$(uuidgen)
+CLIENT_KEY={{CLIENT_KEY}}
 
 cat > ./server.yaml << EOF 
 listen: :443
@@ -51,20 +52,19 @@ sed -e "s|{{PASSWORD}}|$PASSWORD|g" \
     -e "s|{{OBFS_PWD}}|$OBS_PASS|g" \
     client.yaml > client_new.yaml
 
-
-CLIENT_KEY=$(uuidgen)
+mkdir -pv /var/www/sub
 
 mv ./server.yaml /etc/hysteria/config.yaml && echo "Update Success!"
-mkdir -pv /var/www/sub
-mv ./client_new.yaml "/var/www/sub/${CLIENT_KEY}.yaml"
-echo "${CLIENT_KEY}"
 systemctl restart hysteria-server.service && echo "Restart Success!"
+
+
+mv ./client_new.yaml "/var/www/sub/${CLIENT_KEY}.yaml"
+
 mkdir -pv /etc/caddy/certs 
 cp /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.crt /etc/caddy/certs 
 cp /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.key /etc/caddy/certs 
-
 chown root:caddy /etc/caddy/certs/*
-sudo chmod 640 /etc/caddy/certs/*
+chmod 640 /etc/caddy/certs/*
 
 cat > /etc/caddy/Caddyfile << EOF 
 {
