@@ -52,16 +52,16 @@ sed -e "s|{{PASSWORD}}|$PASSWORD|g" \
     client.yaml > client_new.yaml
 
 
+CLIENT_KEY=$(uuidgen)
+
 mv ./server.yaml /etc/hysteria/config.yaml && echo "Update Success!"
 mkdir -pv /var/www/sub
-mv ./client_new.yaml /var/www/sub
+mv ./client_new.yaml "/var/www/sub/${uuidgen}.yaml"
+echo "${CLIENT_KEY}"
 systemctl restart hysteria-server.service && echo "Restart Success!"
-
 
 cat > /etc/caddy/Caddyfile << EOF 
 random.drrr-sy.top {
-    tls /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.crt /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.key
-
     handle_path /sub/* {
         root * /var/www/sub
         file_server
