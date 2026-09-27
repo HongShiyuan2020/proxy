@@ -1,5 +1,5 @@
-PASSWORD=$(uuidgen)
-OBS_PASS=$(uuidgen)
+#!/bin/bash
+set -euo pipefail
 
 if ! command -v uuidgen >/dev/null 2>&1; then 
     echo "Install uuidgen..."
@@ -9,7 +9,15 @@ fi
 if ! command -v hysteria >/dev/null 2>&1; then 
     echo "Install hysteria..."
     bash <(curl -fsSL https://get.hy2.sh/)
+fi
+
+if ! command -v caddy >/dev/null 2>&1; then
+    echo "Install caddy..."
+    apt install caddy -y 
 fi 
+
+PASSWORD=$(uuidgen)
+OBS_PASS=$(uuidgen)
 
 cat > ./server.yaml << EOF 
 listen: :443
@@ -45,4 +53,23 @@ sed -e "s|{{PASSWORD}}|$PASSWORD|g" \
 
 
 mv ./server.yaml /etc/hysteria/config.yaml && echo "Update Success!"
+mkdir -pv /var/www/sub
+mv ./client_new.yaml /var/www/sub
 systemctl restart hysteria-server.service && echo "Restart Success!"
+
+
+cat > /etc/caddy/Caddyfile << EOF 
+random.drrr-sy.top {
+    tls /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.crt /var/lib/hysteria/acme/certificates/acme-v02.api.letsencrypt.org-directory/random.drrr-sy.top/random.drrr-sy.top.key
+
+    handle_path /sub/* {
+        root * /var/www/sub
+        file_server
+    }
+}
+
+EOF
+
+caddy validate --config /etc/caddy/Caddyfile
+systemctl restart caddy
+

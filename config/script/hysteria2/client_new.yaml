@@ -31,7 +31,7 @@ proxies:
       skip-cert-verify: false,
       sni: random.drrr-sy.top,
       obfs: salamander,
-      obfs-password: 779BA00B-BBBC-454B-825A-18F22D26C37B
+      obfs-password: 779BA00B-BBBC-454B-825A-18F22D26C37B,
       client-fingerprint: "chrome"
     }
 proxy-groups:
