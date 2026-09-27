@@ -56,7 +56,7 @@ CLIENT_KEY=$(uuidgen)
 
 mv ./server.yaml /etc/hysteria/config.yaml && echo "Update Success!"
 mkdir -pv /var/www/sub
-mv ./client_new.yaml "/var/www/sub/${uuidgen}.yaml"
+mv ./client_new.yaml "/var/www/sub/${CLIENT_KEY}.yaml"
 echo "${CLIENT_KEY}"
 systemctl restart hysteria-server.service && echo "Restart Success!"
 
