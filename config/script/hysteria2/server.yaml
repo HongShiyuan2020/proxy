@@ -7,7 +7,7 @@ acme:
 
 auth:
   type: password
-  password: Hhgyq9243bc8wh89hb394H90h90dewf
+  password: 0CA78052-A8A6-46E7-A859-3D767614E8E6
 
 masquerade:
   type: proxy
@@ -19,5 +19,7 @@ masquerade:
   forceHTTPS: true
 
 obfs:
-  type:
+  type: salamander
+  salamander:
+    password: 779BA00B-BBBC-454B-825A-18F22D26C37B 
 
